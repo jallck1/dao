@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import requests
 from sentence_transformers import SentenceTransformer
 import PyPDF2
-import fitz  # PyMuPDF
+import fitz  # PyMuPDF is the package name, but we import fitz
 from PIL import Image
 import io
 
