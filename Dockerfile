@@ -1,34 +1,32 @@
-FROM python:3.10-slim
+FROM python:3.10
 
-WORKDIR /app
-
-# Instalar dependencias del sistema necesarias para PyMuPDF y otras bibliotecas
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Instalar dependencias del sistema necesarias para PyMuPDF y Poppler
+RUN apt-get update && apt-get install -y \
     build-essential \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
     libxrender-dev \
     libpoppler-cpp-dev \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements.txt e instalar dependencias de Python
+# Crear directorio de la aplicación
+WORKDIR /app
+
+# Copiar requirements.txt e instalar dependencias Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Instalar PyMuPDF explícitamente para asegurar que se instale correctamente
-RUN pip install --no-cache-dir PyMuPDF==1.23.8
+# Instalar gunicorn explícitamente
+RUN pip install --no-cache-dir gunicorn
 
-# Copiar el resto de la aplicación
+# Copiar el resto de archivos
 COPY . .
 
-# Configuración de variables de entorno
-ENV PYTHONUNBUFFERED=1
-ENV PORT=8080
+# Render necesita exponer el puerto vía PORT
+ENV PORT=10000
+EXPOSE ${PORT}
 
-# Exponer el puerto que usa la aplicación
-EXPOSE $PORT
-
-# Comando para ejecutar la aplicación
-CMD ["python", "app.py"]
+# Comando para ejecutar la app
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:10000", "app:app"]
