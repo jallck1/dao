@@ -29,4 +29,4 @@ ENV PORT=10000
 EXPOSE ${PORT}
 
 # Comando para ejecutar la app
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:10000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout", "120", "app:app"]
