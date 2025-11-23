@@ -31,7 +31,8 @@ embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 print("Modelo de embeddings cargado!")
 
 # Configuración de OpenRouter
-OPENROUTER_API_KEY = "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"  # API key de OpenRouter
+# IMPORTANTE: la API key ya no se guarda en el código. Se debe definir como variable de entorno OPENROUTER_API_KEY.
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 MODEL_NAME = "openai/gpt-3.5-turbo"  # Modelo válido de OpenRouter
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_API_URL = os.getenv('OPENROUTER_API_URL', API_URL)
