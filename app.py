@@ -796,7 +796,6 @@ Sé preciso, útil y amigable en tus respuestas.'''
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    # Para despliegue en Cloud Run / contenedores: usar el puerto de la variable de entorno PORT (por defecto 8080)
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # Este bloque no es necesario cuando se usa Gunicorn
+    pass
 
